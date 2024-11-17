@@ -1,23 +1,17 @@
-import clsx, { type ClassValue } from 'clsx';
 import { Fragment, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { getLetter, randomIntFromInterval } from '~/react/utils';
+import { cn } from '~/utils/utils';
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+interface Props {
+  gridSize?: number;
 }
 
-function randomIntFromInterval(min: number, max: number) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+function PirateGame({ gridSize = 7 }: Props) {
+  const totalSquares = gridSize * gridSize;
 
-const gridSize = 7;
-const totalSquares = gridSize * gridSize;
-
-function PirateGame() {
   const [array, setArray] = useState<boolean[]>(Array(totalSquares).fill(false));
 
-  const [letter, setLetter] = useState(' ');
+  const [letter, setLetter] = useState('');
   const [number, setNumber] = useState(0);
   const [recent, setRecent] = useState(-1);
 
@@ -34,7 +28,7 @@ function PirateGame() {
 
     setResetCheck(false);
     setArray(Array(totalSquares).fill(false));
-    setLetter(' ');
+    setLetter('');
     setNumber(0);
     setRecent(-1);
     setPrevious([]);
@@ -54,7 +48,7 @@ function PirateGame() {
 
   function handleUpdate(index: number, manual?: boolean) {
     const letterNum = (index % gridSize) + 1;
-    const letter = String.fromCharCode(64 + letterNum);
+    const letter = getLetter(letterNum);
     const number = Math.floor(index / gridSize) + 1;
     setLetter(letter);
     setNumber(number);
@@ -69,10 +63,13 @@ function PirateGame() {
   return (
     <div className="flex flex-col gap-12 mt-4 sm:mt-32">
       <div className="flex flex-col sm:flex-row justify-center items-center sm:gap-16">
-        <div className="grid grid-cols-8 gap-1 mb-4 -ml-4 sm:-ml-5">
-          {Array.from(Array(8).keys()).map((i) => (
+        <div
+          className="grid gap-1 mb-4 -ml-4 sm:-ml-5"
+          style={{ gridTemplateColumns: `repeat(${gridSize + 1}, minmax(0, 1fr))` }}
+        >
+          {Array.from(Array(gridSize + 1).keys()).map((i) => (
             <div key={i} className={cn('flex items-end h-8 justify-center text-lg', i !== 0 ? 'w-8 sm:w-12' : 'w-8')}>
-              {i !== 0 ? String.fromCharCode(64 + i) : ' '}
+              {getLetter(i)}
             </div>
           ))}
 
