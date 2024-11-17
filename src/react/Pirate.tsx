@@ -60,9 +60,9 @@ function PirateGame() {
   }
 
   return (
-    <div className="flex flex-col gap-16 h-screen justify-center">
+    <div className="flex flex-col gap-12 h-screen justify-center">
       <div className="flex flex-row justify-center items-center gap-16">
-        <div className="grid grid-cols-8 gap-1">
+        <div className="grid grid-cols-8 gap-1 mb-4">
           {Array.from(Array(8).keys()).map((i) => (
             <div key={i} className={cn('flex items-end h-8 justify-center text-lg', i !== 0 ? 'w-12' : 'w-8')}>
               {map[i]}
@@ -91,7 +91,10 @@ function PirateGame() {
 
         <div className="flex flex-col gap-6 justify-center items-center w-1/3">
           <p style={{ fontSize: '15rem', lineHeight: 1 }}>{`${letter}${number || '-'}`}&#8203;</p>
-          <button className="cursor-pointer text-xl" onClick={generateButBetter}>
+          <button
+            className="cursor-pointer text-xl py-1 px-5 rounded-xl border-2 border-gray-500 hover:opacity-90 active:opacity-100"
+            onClick={generateButBetter}
+          >
             Next
           </button>
         </div>
